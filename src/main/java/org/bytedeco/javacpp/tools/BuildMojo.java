@@ -17,7 +17,6 @@
  * You should have received a copy of the GNU General Public License
  * along with JavaCPP.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.bytedeco.javacpp.tools;
 
 import java.io.File;
@@ -33,8 +32,8 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
 /**
- * A Maven Mojo to call the {@link Builder} (C++ header file -&gt; Java class -&gt; C++ JNI -&gt; native library).
- * Can also be considered as an example of how to use the Builder programmatically.
+ * A Maven Mojo to call the {@link Builder} (C++ header file -> Java class -> C++ JNI -> native library). Can also be
+ * considered as an example of how to use the Builder programmatically.
  *
  * @author Arnaud Nauwynck
  * @author Samuel Audet
@@ -45,55 +44,55 @@ public class BuildMojo extends AbstractMojo {
     /**
      * Load user classes from classPath
      */
-  @Parameter( defaultValue = "${project.build.outputDirectory}" )
+    @Parameter(defaultValue = "${project.build.outputDirectory}")
     private String classPath;
 
     /**
      * Load user classes from classPaths
      */
-  @Parameter
+    @Parameter
     private String[] classPaths;
 
     /**
      * Add the path to the "platform.includepath" property.
      */
-  @Parameter
+    @Parameter
     private String includePath;
 
     /**
      * Add the paths to the "platform.includepath" property.
      */
-  @Parameter
+    @Parameter
     private String[] includePaths;
 
     /**
      * Add the path to the "platform.linkpath" property.
      */
-  @Parameter
+    @Parameter
     private String linkPath;
 
     /**
      * Add the paths to the "platform.linkpath" property.
      */
-  @Parameter
+    @Parameter
     private String[] linkPaths;
 
     /**
      * Add the path to the "platform.preloadpath" property.
      */
-  @Parameter
+    @Parameter
     private String preloadPath;
 
     /**
      * Add the paths to the "platform.preloadpath" property.
      */
-  @Parameter
+    @Parameter
     private String[] preloadPaths;
 
     /**
      * Output all generated files to outputDirectory
      */
-    @Parameter( defaultValue = "${project.build.outputDirectory}" )
+    @Parameter(defaultValue = "${project.build.outputDirectory}")
     private File outputDirectory;
 
     /**
@@ -121,7 +120,7 @@ public class BuildMojo extends AbstractMojo {
     private boolean copyLibs;
 
     /**
-     * Also create a JAR file named {@code &lt;jarPrefix&gt;-&lt;platform&gt;.jar}
+     * Also create a JAR file named {@code <jarPrefix>-<platform>.jar}
      */
     @Parameter
     private String jarPrefix;
@@ -160,7 +159,7 @@ public class BuildMojo extends AbstractMojo {
      * Environment variables added to the compiler subprocess
      */
     @Parameter
-    private Map<String,String> environmentVariables;
+    private Map<String, String> environmentVariables;
 
     /**
      * Pass compilerOptions directly to compiler
@@ -168,26 +167,27 @@ public class BuildMojo extends AbstractMojo {
     @Parameter
     private String[] compilerOptions;
 
-     /**
-      * Skip the execution.
-      */
+    /**
+     * Skip the execution.
+     */
     @Parameter(defaultValue = "false")
     private boolean skip;
 
-  @Parameter(readonly = true, required = true)
-  protected MavenProject project;
+    @Parameter(readonly = true, required = true)
+    protected MavenProject project;
 
     String[] merge(String[] ss, String s) {
         if (ss != null && s != null) {
             ss = Arrays.copyOf(ss, ss.length + 1);
             ss[ss.length - 1] = s;
         } else if (s != null) {
-            ss = new String[] { s };
+            ss = new String[]{s};
         }
         return ss;
     }
 
-    @Override public void execute() throws MojoExecutionException {
+    @Override
+    public void execute() throws MojoExecutionException {
         final Log log = getLog();
         try {
             log.info("Executing JavaCPP Builder");
@@ -225,10 +225,25 @@ public class BuildMojo extends AbstractMojo {
             classOrPackageNames = merge(classOrPackageNames, classOrPackageName);
 
             Logger logger = new Logger() {
-                @Override public void debug(CharSequence cs) { log.debug(cs); }
-                @Override public void info (CharSequence cs) { log.info(cs);  }
-                @Override public void warn (CharSequence cs) { log.warn(cs);  }
-                @Override public void error(CharSequence cs) { log.error(cs); }
+                @Override
+                public void debug(CharSequence cs) {
+                    log.debug(cs);
+                }
+
+                @Override
+                public void info(CharSequence cs) {
+                    log.info(cs);
+                }
+
+                @Override
+                public void warn(CharSequence cs) {
+                    log.warn(cs);
+                }
+
+                @Override
+                public void error(CharSequence cs) {
+                    log.error(cs);
+                }
             };
             Builder builder = new Builder(logger)
                     .classPaths(classPaths)

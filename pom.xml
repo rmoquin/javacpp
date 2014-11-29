@@ -206,6 +206,9 @@
               <goal>jar</goal>
             </goals>
             <configuration>
+              <!-- Java 8 is picky about Javadocs, so I'm putting this here because I use Java 8, but don't think javadoc should fail a build.
+                   Ultimately, this is up to the authors of javacpp if they want this change here.-->
+              <failOnError>false</failOnError>
               <detectLinks>true</detectLinks>
               <show>private</show>
             </configuration>

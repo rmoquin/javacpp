@@ -18,6 +18,8 @@ import org.bytedeco.javacpp.tools.Generator;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
 public @interface Index {
-    /** The number of indices spread over the parameters, for multidimensional access. */
+    /** 
+     * @return The number of indices spread over the parameters, for multidimensional access. 
+     */
     int value() default 1;
 }

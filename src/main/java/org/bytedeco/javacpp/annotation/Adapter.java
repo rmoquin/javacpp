@@ -14,12 +14,12 @@ import org.bytedeco.javacpp.tools.Generator;
  * and {@link String}; and between {@code std::vector}, Java arrays of primitive types,
  * and {@link Pointer}. Adapter classes must define the following public members:
  * <ul>
- * <li> A constructor accepting 2 arguments (or more if {@link #argc()} > 1): a pointer and a size
- * <li> Another constructor that accepts a reference to the object of the other class
- * <li> A {@code static void deallocate(pointer)} function
- * <li> Overloaded cast operators to both types, for references and pointers
- * <li> A {@code void assign(pointer, size)} function
- * <li> A {@code size} member variable for arrays accessed via pointer
+ * <li> A constructor accepting 2 arguments (or more if {@link #argc()} &gt; 1): a pointer and a size</li>
+ * <li> Another constructor that accepts a reference to the object of the other class</li>
+ * <li> A {@code static void deallocate(pointer)} function</li>
+ * <li> Overloaded cast operators to both types, for references and pointers</li>
+ * <li> A {@code void assign(pointer, size)} function</li>
+ * <li> A {@code size} member variable for arrays accessed via pointer</li>
  * </ul>
  * To reduce further the amount of coding, this annotation can also be used on
  * other annotations, such as with {@link StdString} and {@link StdVector}.
@@ -31,9 +31,16 @@ import org.bytedeco.javacpp.tools.Generator;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.PARAMETER, ElementType.ANNOTATION_TYPE})
 public @interface Adapter {
-    /** The name of the C++ adapter class. */
+    /** 
+     * @return the name of the C++ adapter class.
+     */
     String value();
-    /** The number of arguments that {@link Generator} takes from the method as
-     *  arguments to the adapter constructor. */
+    
+    /** 
+     * The number of arguments that {@link Generator} takes from the method as
+     * arguments to the adapter constructor. 
+     * 
+     * @return the number of arguments.
+     */
     int argc() default 1;
 }
