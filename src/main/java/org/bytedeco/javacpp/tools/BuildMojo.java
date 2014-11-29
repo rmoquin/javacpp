@@ -27,157 +27,155 @@ import java.util.Properties;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
 /**
- * A Maven Mojo to call the {@link Builder} (C++ header file -> Java class -> C++ JNI -> native library).
+ * A Maven Mojo to call the {@link Builder} (C++ header file -&gt; Java class -&gt; C++ JNI -&gt; native library).
  * Can also be considered as an example of how to use the Builder programmatically.
  *
- * @goal build
- * @phase process-classes
  * @author Arnaud Nauwynck
  * @author Samuel Audet
  */
+@Mojo(name = "build", defaultPhase = LifecyclePhase.PROCESS_CLASSES)
 public class BuildMojo extends AbstractMojo {
 
     /**
      * Load user classes from classPath
-     * @parameter property="classPath" default-value="${project.build.outputDirectory}"
      */
-    private String classPath = null;
+  @Parameter( defaultValue = "${project.build.outputDirectory}" )
+    private String classPath;
 
     /**
      * Load user classes from classPaths
-     * @parameter property="classPaths"
      */
-    private String[] classPaths = null;
+  @Parameter
+    private String[] classPaths;
 
     /**
      * Add the path to the "platform.includepath" property.
-     * @parameter property="includePath"
      */
-    private String includePath = null;
+  @Parameter
+    private String includePath;
 
     /**
      * Add the paths to the "platform.includepath" property.
-     * @parameter property="includePaths"
      */
-    private String[] includePaths = null;
+  @Parameter
+    private String[] includePaths;
 
     /**
      * Add the path to the "platform.linkpath" property.
-     * @parameter property="linkPath"
      */
-    private String linkPath = null;
+  @Parameter
+    private String linkPath;
 
     /**
      * Add the paths to the "platform.linkpath" property.
-     * @parameter property="linkPaths"
      */
-    private String[] linkPaths = null;
+  @Parameter
+    private String[] linkPaths;
 
     /**
      * Add the path to the "platform.preloadpath" property.
-     * @parameter property="preloadPath"
      */
-    private String preloadPath = null;
+  @Parameter
+    private String preloadPath;
 
     /**
      * Add the paths to the "platform.preloadpath" property.
-     * @parameter property="preloadPaths"
      */
-    private String[] preloadPaths = null;
+  @Parameter
+    private String[] preloadPaths;
 
     /**
      * Output all generated files to outputDirectory
-     * @parameter property="outputDirectory"
      */
-    private File outputDirectory = null;
+    @Parameter( defaultValue = "${project.build.outputDirectory}" )
+    private File outputDirectory;
 
     /**
      * Output everything in a file named after given outputName
-     * @parameter property="outputName"
      */
-    private String outputName = null;
+    @Parameter
+    private String outputName;
 
     /**
      * Compile and delete the generated .cpp files
-     * @parameter property="compile" default-value="true"
      */
-    private boolean compile = true;
+    @Parameter(defaultValue = "true")
+    private boolean compile;
 
     /**
      * Generate header file with declarations of callbacks functions
-     * @parameter property="header" default-value="false"
      */
-    private boolean header = false;
+    @Parameter(defaultValue = "false")
+    private boolean header;
 
     /**
      * Copy to output directory dependent libraries (link and preload)
-     * @parameter property="copyLibs" default-value="false"
      */
-    private boolean copyLibs = false;
+    @Parameter(defaultValue = "false")
+    private boolean copyLibs;
 
     /**
-     * Also create a JAR file named {@code <jarPrefix>-<platform>.jar}
-     * @parameter property="jarPrefix"
+     * Also create a JAR file named {@code &lt;jarPrefix&gt;-&lt;platform&gt;.jar}
      */
-    private String jarPrefix = null;
+    @Parameter
+    private String jarPrefix;
 
     /**
      * Load all properties from resource
-     * @parameter property="properties"
      */
-    private String properties = null;
+    @Parameter
+    private String properties;
 
     /**
      * Load all properties from file
-     * @parameter property="propertyFile"
      */
-    private File propertyFile = null;
+    @Parameter
+    private File propertyFile;
 
     /**
      * Set property keys to values
-     * @parameter property="propertyKeysAndValues"
      */
-    private Properties propertyKeysAndValues = null;
+    @Parameter
+    private Properties propertyKeysAndValues;
 
     /**
      * Process only this class or package (suffixed with .* or .**)
-     * @parameter property="classOrPackageName"
      */
-    private String classOrPackageName = null;
+    @Parameter
+    private String classOrPackageName;
 
     /**
      * Process only these classes or packages (suffixed with .* or .**)
-     * @parameter property="classOrPackageNames"
      */
-    private String[] classOrPackageNames = null;
+    @Parameter
+    private String[] classOrPackageNames;
 
     /**
      * Environment variables added to the compiler subprocess
-     * @parameter property="environmentVariables"
      */
-    private Map<String,String> environmentVariables = null;
+    @Parameter
+    private Map<String,String> environmentVariables;
 
     /**
      * Pass compilerOptions directly to compiler
-     * @parameter property="compilerOptions"
      */
-    private String[] compilerOptions = null;
+    @Parameter
+    private String[] compilerOptions;
 
      /**
       * Skip the execution.
-      * @parameter property="skip" default-value="false"
       */
-    private boolean skip = false;
+    @Parameter(defaultValue = "false")
+    private boolean skip;
 
-    /**
-     * @parameter default-value="${project}"
-     * @required
-     * @readonly
-     */
-    private MavenProject project;
+  @Parameter(readonly = true, required = true)
+  protected MavenProject project;
 
     String[] merge(String[] ss, String s) {
         if (ss != null && s != null) {
@@ -270,7 +268,6 @@ public class BuildMojo extends AbstractMojo {
                 log.debug("outputFiles: " + Arrays.deepToString(outputFiles));
             }
         } catch (Exception e) {
-            log.error("Failed to execute JavaCPP Builder: " + e.getMessage());
             throw new MojoExecutionException("Failed to execute JavaCPP Builder", e);
         }
     }
