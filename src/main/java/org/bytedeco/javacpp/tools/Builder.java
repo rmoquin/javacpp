@@ -473,11 +473,6 @@ public class Builder {
         return this;
     }
     /** Sets the {@link #outputDirectory} field to the argument. */
-    public Builder outputDirectory(String outputDirectory) {
-        outputDirectory(outputDirectory == null ? null : new File(outputDirectory));
-        return this;
-    }
-    /** Sets the {@link #outputDirectory} field to the argument. */
     public Builder outputDirectory(File outputDirectory) {
         this.outputDirectory = outputDirectory;
         return this;
@@ -726,7 +721,8 @@ public class Builder {
             } else if ("-classpath".equals(args[i]) || "-cp".equals(args[i]) || "-lib".equals(args[i])) {
                 builder.classPaths(args[++i]);
             } else if ("-d".equals(args[i])) {
-                builder.outputDirectory(args[++i]);
+                //Find out now if the output directory is invalid
+                builder.outputDirectory(new File(args[++i]));
             } else if ("-o".equals(args[i])) {
                 builder.outputName(args[++i]);
             } else if ("-cpp".equals(args[i]) || "-nocompile".equals(args[i])) {

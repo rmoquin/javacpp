@@ -108,7 +108,7 @@ class ClassScanner {
                 jis.close();
             }
         }
-        if (classes.size() == 0 && packageName == null) {
+        if (classes.isEmpty() && packageName == null) {
             logger.warn("No classes found in the unnamed package");
             Builder.printHelp();
         } else if (prevSize == classes.size() && packageName != null) {

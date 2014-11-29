@@ -42,13 +42,13 @@ import org.apache.maven.project.MavenProject;
 public class BuildMojo extends AbstractMojo {
 
     /**
-     * Load user classes from classPath
+     * The location where to target projects classes are compiled to, which is then read by javacpp for processing.
      */
     @Parameter(defaultValue = "${project.build.outputDirectory}")
     private String classPath;
 
     /**
-     * Load user classes from classPaths
+     * The location where to target projects classes are compiled to, which is then read by javacpp for processing.
      */
     @Parameter
     private String[] classPaths;
@@ -144,13 +144,15 @@ public class BuildMojo extends AbstractMojo {
     private Properties propertyKeysAndValues;
 
     /**
-     * Process only this class or package (suffixed with .* or .**)
-     */
+     * Process only this class, or a package ending with .* to retrieve classes only in this package, or .** to
+     * recursively look for classes in this package or subpackages. 
+    */
     @Parameter
     private String classOrPackageName;
 
     /**
-     * Process only these classes or packages (suffixed with .* or .**)
+     * Process only this classes, or packages ending with either .*, to retrieve classes only in this package, or .**, to
+     * recursively look for classes in this package or subpackages.
      */
     @Parameter
     private String[] classOrPackageNames;
@@ -173,8 +175,8 @@ public class BuildMojo extends AbstractMojo {
     @Parameter(defaultValue = "false")
     private boolean skip;
 
-    @Parameter(readonly = true, required = true)
-    protected MavenProject project;
+    @Parameter(property = "project", readonly = true, required = true)
+    private MavenProject project;
 
     String[] merge(String[] ss, String s) {
         if (ss != null && s != null) {
